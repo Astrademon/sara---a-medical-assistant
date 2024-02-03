@@ -4,7 +4,11 @@ import datetime
 import speech_recognition as sr
 from googletrans import Translator
 import cv2
+from docx import Document
+from docx.shared import Inches
 
+#please import the required libraries for errorless working of function
+#make sure about the python --version
 
 engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
@@ -78,8 +82,27 @@ def takeCommand():
         return ":"
     return query
 
+def info_get(prompt):
+    getinfo = sr.Recognizer()
+
+    with sr.Microphone() as source:
+        print(prompt)
+        getinfo.adjust_for_ambient_noise(source)
+        audio = getinfo.listen(source, timeout=3)
+
+        try:
+            text = getinfo.recognize_google(audio)
+            return text
+        except sr.UnknownValueError:
+            print("couldn't understand audio.")
+        except sr.RequestError as e:
+            print(f"unable to process yoour request...pls try again {e}")
+
+
 if __name__ =="__main__":
     wishMe()
+    print("\n\n\n\n")
+    print("shall I capture a picture for the medical record purpose? press 'y' for yes and 'n' for no")
     permit = input(speak("shall I capture a picture for the medical record purpose? press 'y' for yes and 'n' for no"))
     if permit == 'y':
             cap = cv2.VideoCapture(0)
@@ -107,17 +130,38 @@ if __name__ =="__main__":
             speak("looking into Wikipedia...")
             query = query.replace("Wikipedia","")
             results = wikipedia.summary(query,sentences=2) #try wiki
-            speak("Wikipedia says...")
+            speak("ead")
             print(results)
             speak(results)
 
         elif 'information' in query:
-             usr = input(speak("please state your name:"))
-             speak("Hello".format(usr))
-             dob = input(speak("plese state your date of birth:"))
-             gender = input("plese state your gender:")
+            name = info_get(speak("please state your name:"))
+            dob = info_get(speak("please state your date of birth"))
+            gender  = info_get(speak("what is your gender? "))
+            country = info_get(speak("which country do you belong to?"))
+            city = info_get("please state your city ")
+            doc = info_get("which doctor do you specifiaclly want to meet with:")
+            symptoms = info_get("please state the symptoms or discomfort you are facing as keypoints ")
+            #add any additional information required...
 
+            #store  this data in a text file
+            info = Document()
+            info.add_heading("Patient Information", level=2)
+            info.add_paragraph(f"Name: {name}")
+            info.add_paragraph(f"Date of Birth: {dob}")
+            info.add_paragraph(f"Gender: {gender}")
+            info.add_paragraph(f"City: {city}")
+            info.add_paragraph(f"Doctor to meet: {doc}")
+            info.add_paragraph(f"Country: {country}")
+            info.add_paragraph(f"Symptoms faced by patient:\n{symptoms}")
+            info.add_paragraph("                                               ")
+            info.add_heading("Patient image ", level=4)
+            info.add_picture('D:\\My codes and programs\\IIT hackathon\\database\\captured_image.jpg', width=Inches(2.0))
+            
 
+            info.save("D:\\My codes and programs\\IIT hackathon\\database\\patientinfo.docx")
+            speak("User information saved to patient.docx")
+            
         elif 'translate for me' in query:
             translate_speech(src, target_language)
         
