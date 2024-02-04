@@ -10,7 +10,32 @@
 
 ->can search deaseses from open-source likely, from wikipedia and provide a short summary about it.
 
-->text-to-speech capabilities with basic python functionalities
+->text-to-speech capabilities with basic python functionalities.
+
+->Convert the give informayion in document format and save it in directory.
+
+The virtual assistant is been made on the ocassion of hackathon event commenced at IIT Dharwad, Parsec 4.0. The assistant is simple to use and easy to work and update too.
 
 
+Use:
+-->Just run the script using any Python supported IDE or prompts.
 
+-->**for errorless run, one must have all the repository to be downloaded:
+
+->wikipedia
+
+->pyttsx3
+
+->datetime
+
+->speechRrecognition
+
+->googletrans
+
+->cv2
+
+->docx
+
+to download repositoary just state, pip install <repositoary_name> {given above}....and all set.
+
+The tool has limiless advantages as mentioned above and can be implimented in various feild for different operaions using right repositaries and code, feel free to drop comments.all feedback and devolpments are accepted.
