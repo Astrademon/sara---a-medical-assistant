@@ -1,11 +1,10 @@
+import webbrowser
 import wikipedia
 import pyttsx3
+import os
 import datetime
 import speech_recognition as sr
 from googletrans import Translator
-import cv2
-from docx import Document
-from docx.shared import Inches
 
 
 engine = pyttsx3.init('sapi5')
@@ -22,17 +21,17 @@ def speak(audio):
 def wishMe():
     hour = int(datetime.datetime.now().hour)
     if hour>=0 and hour<12:
-        speak("Good Morning.")
+        speak("Good Morning Sir!")
 
     elif hour>=12 and hour<18:
-        speak("Good Afternoon.")
+        speak("Good Afternoon, Sir.")
          
     else:
-        speak("Good Evening.")
+        speak("Good Evening, Sir.")
 
     speak("I am sara. please tell me how may I help you")
 
-def translate_speech(src, target_language):
+def translate_speech(source_language, target_language):
     r = sr.Recognizer()
     translator = Translator()
     
@@ -41,10 +40,10 @@ def translate_speech(src, target_language):
         audio = r.listen(source)
         
     try:
-        text = r.recognize_google(audio, language=src)
+        text = r.recognize_google(audio, language=source_language)
         speak(text)
         
-        translation = translator.translate(text, src=src, dest=target_language)
+        translation = translator.translate(text, src=source_language, dest=target_language)
         translated_text = translation.text
         
         print("your translation is:")
@@ -56,12 +55,12 @@ def translate_speech(src, target_language):
         speak("Error:", e)
 
 # Example usage
-src = "en"  # English can be altered to any languages 
-target_language = "kn"  # spanish can be altered to any languages 
+source_language = "en"  # English //can be altered to any languages 
+target_language = "ka"  # spanish //can be altered to any languages 
 
 
 def takeCommand():
-    #it takes microphone inut from user and gives string op
+    #it takes microphone input from user and gives string op
 
     r=sr.Recognizer()
     with sr.Microphone() as source:
@@ -71,97 +70,71 @@ def takeCommand():
     
     try:
         print("Recognizing...")
-        query = r.recognize_google(audio, language='en-in') # type: ignore
+        query = r.recognize_google(audio, language='en-in')
         print(f"User said:{query}\n")
 
     except Exception as e:
        # print(e)
         print("say that again, I did not get you")
-        return ":"
+        return "None"
     return query
 
-def info_get(prompt):
-    getinfo = sr.Recognizer()
-
-    with sr.Microphone() as source:
-        print(prompt)
-        getinfo.adjust_for_ambient_noise(source)
-        audio = getinfo.listen(source, timeout=3)
-
-        try:
-            text = getinfo.recognize_google(audio) # type: ignore
-            return text
-        except sr.UnknownValueError:
-            print("couldn't understand audio.")
-        except sr.RequestError as e:
-            print(f"unable to process yoour request...pls try again {e}")
-
-
-if __name__ =="__main__":
+if __name__ == "__main__":
     wishMe()
-    print("\n\n")
-    print("shall I capture a picture for the medical record purpose? press 'y' for yes and 'n' for no")
-    permit = input(speak("shall I capture a picture for the medical record purpose? press 'y' for yes and 'n' for no"))
-    if permit == 'y':
-            cap = cv2.VideoCapture(0)
-
-            if not cap.isOpened():
-              print("Error: Could not open webcam, permission denied or module aint present")
-              exit()
-
-            ret, frame = cap.read()
-
-            cv2.imshow('Captured Image', frame)
-            cv2.waitKey(2000)
-            cv2.destroyAllWindows()  
-            # Save the captured image to a file
-            cv2.imwrite('D:\\My codes and programs\\IIT hackathon\\database\\captured_image.jpg', frame)
-        # Release the VideoCapture and close the OpenCV window
-            cap.release()
-            cv2.destroyAllWindows()
-        
     while True:
         query = takeCommand().lower()
     #logic for task execution
-        
+
         if 'wikipedia' in query:
             speak("looking into Wikipedia...")
             query = query.replace("Wikipedia","")
             results = wikipedia.summary(query,sentences=2) #try wiki
-            speak("ead")
+            speak("Wikipedia says...")
             print(results)
             speak(results)
 
-        elif 'information' in query:
-            name = info_get(speak("may I  know your name:"))
-            dob = info_get(speak("may I  know your date of birth"))
-            gender  = info_get(speak("can you please specify your gender? "))
-            country = info_get(speak("which country do you belong to?"))
-            city = info_get(speak("may I  know your city "))
-            doc = info_get(speak("which doctor do you specifiaclly want to meet :"))
-            symptoms = info_get(speak("may I  know the symptoms or discomfort you are facing as keypoints "))
-            #add any additional information required...
+        #website section 
+        if 'open youtube' in query:
+            webbrowser.open("youtube.com")
+        elif 'open google' in query:
+            webbrowser.open("google.com")
+        elif 'open maharaja institute website' in query:
+            webbrowser.open('https://www.mit.edu/')
+        elif 'open stack overflow' in query:
+            webbrowser.open("stackoverflow.com")
+        elif 'play some music' in query:
+            webbrowser.open('spotify.com')
+        elif 'show me way in map' in query:
+            webbrowser.open('maps.google.com/maps')
+        elif 'open canva' in query:
+            webbrowser.open('https://www.canva.com/design/DAFmkzRelpM/mv4e-NrphvzKeXnnD9IgOA/edit')
+        elif 'download songs' in query:
+            webbrowser.open('https://www.pagalworld.com.se/find/Hindi/1.html')
+        elif 'my college website' in query:
+            webbrowser.open('https://vidyavikasengineering.com/')
+        elif 'my mails' in query:
+            webbrowser.open('https://mail.google.com/mail/u/0/')
+        elif 'news' in query:
+            webbrowser.open('https://www.google.com/search?q=latest+news&rlz=1C1RXQR_enIN1015IN1015&oq=latest+news&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTINCAEQABiDARixAxiABDIMCAIQABgUGIcCGIAEMgYIAxAAGAMyEAgEEAAYgwEYsQMYyQMYgAQyCggFEAAYkgMYigUyCggGEAAYkgMYigUyDQgHEAAYgwEYsQMYgAQyBggIEAAYAzINCAkQABiDARixAxiABNIBDjEyNDA4Njk3NmowajE1qAIAsAIA&sourceid=chrome&ie=UTF-8')
+        elif 'buy things' in query:
+            webbrowser.open('https://www.amazon.in/')
+        elif 'hotels nearby' in query:
+            webbrowser.open('https://www.google.com/maps/search/hotels+in+mysore/@12.3201616,76.6225026,14z/data=!3m1!4b1?entry=ttu')
+        elif 'famous places' in query:
+            webbrowser.open('https://www.google.com/maps/search/hotels+in+mysore/@12.3201616,76.6225026,14z/data=!3m1!4b1?entry=ttu')
+        
+        #directory section
+        elif 'play music' in query:
+            music_dir = 'D:\\music'   
+            songs = os.listdir(music_dir)   
+            print(songs)
+            os.startfile(os.path.join(music_dir,songs[0]))
 
-            #store  this data in a text file
-            info = Document()
-            info.add_heading("Patient Information", level=2)
-            info.add_paragraph(f"Name: {name}")
-            info.add_paragraph(f"Date of Birth: {dob}")
-            info.add_paragraph(f"Gender: {gender}")
-            info.add_paragraph(f"City: {city}")
-            info.add_paragraph(f"Doctor to meet: {doc}")
-            info.add_paragraph(f"Country: {country}")
-            info.add_paragraph(f"Symptoms faced by patient:\n{symptoms}")
-            info.add_paragraph("                                               ")
-            info.add_heading("Patient image ", level=4)
-            info.add_picture('D:\\My codes and programs\\IIT hackathon\\database\\captured_image.jpg', width=Inches(2.0))
-            
-
-            info.save("D:\\My codes and programs\\IIT hackathon\\database\\patientinfo.docx")
-            speak("User information saved to patient.docx")
-            
         elif 'translate for me' in query:
-            translate_speech(src, target_language)
+            translate_speech(source_language, target_language)
         
         elif 'go to sleep' in query:
             quit()
+
+
+            
