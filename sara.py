@@ -7,8 +7,6 @@ import cv2
 from docx import Document
 from docx.shared import Inches
 
-#please import the required libraries for errorless working of function
-#make sure about the python --version
 
 engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
@@ -91,7 +89,7 @@ def info_get(prompt):
         audio = getinfo.listen(source, timeout=3)
 
         try:
-            text = getinfo.recognize_google(audio)
+            text = getinfo.recognize_google(audio) # type: ignore
             return text
         except sr.UnknownValueError:
             print("couldn't understand audio.")
@@ -101,7 +99,7 @@ def info_get(prompt):
 
 if __name__ =="__main__":
     wishMe()
-    print("\n\n\n\n")
+    print("\n\n")
     print("shall I capture a picture for the medical record purpose? press 'y' for yes and 'n' for no")
     permit = input(speak("shall I capture a picture for the medical record purpose? press 'y' for yes and 'n' for no"))
     if permit == 'y':
@@ -135,13 +133,13 @@ if __name__ =="__main__":
             speak(results)
 
         elif 'information' in query:
-            name = info_get(speak("please state your name:"))
-            dob = info_get(speak("please state your date of birth"))
-            gender  = info_get(speak("what is your gender? "))
+            name = info_get(speak("may I  know your name:"))
+            dob = info_get(speak("may I  know your date of birth"))
+            gender  = info_get(speak("can you please specify your gender? "))
             country = info_get(speak("which country do you belong to?"))
-            city = info_get("please state your city ")
-            doc = info_get("which doctor do you specifiaclly want to meet with:")
-            symptoms = info_get("please state the symptoms or discomfort you are facing as keypoints ")
+            city = info_get(speak("may I  know your city "))
+            doc = info_get(speak("which doctor do you specifiaclly want to meet :"))
+            symptoms = info_get(speak("may I  know the symptoms or discomfort you are facing as keypoints "))
             #add any additional information required...
 
             #store  this data in a text file
