@@ -39,3 +39,7 @@ Use:
 to download repositoary just state, pip install <repositoary_name> {given above}....and all set.
 
 The tool has limiless advantages as mentioned above and can be implimented in various feild for different operaions using right repositaries and code, feel free to drop comments.all feedback and devolpments are accepted.
+
+-> we had a wonderful toime in creating the project here in hackathon...do check:
+
+https://youtu.be/qBgRn3gq0WY?si=gwJBg0GPhDeXEexp
