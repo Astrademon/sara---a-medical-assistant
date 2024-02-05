@@ -45,3 +45,6 @@ The tool has limiless advantages as mentioned above and can be implimented in va
 https://youtu.be/qBgRn3gq0WY?si=gwJBg0GPhDeXEexp
 
 The code is built using Python, openAI , and in-built directories of python as given above.
+
+->Devolpments that can be added:
+Various developments can be added in this AI system to make it better the features include gender detection,face analyzer, age detector, can be merged to a valid information source of medical feild and grasp the information from there in order to process it to give a final output. we can also add an attractive front end for better user experience and the back end for storage of the data efficiently and effectively by proper development of the code you can also retrieve delete or modify the data for complete error minimization procedure. We try to implement the speech converter which helps in conversion of the languages used in local area and convert to to the general language for query simplification
