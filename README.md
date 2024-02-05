@@ -43,3 +43,5 @@ The tool has limiless advantages as mentioned above and can be implimented in va
 -> we had a wonderful toime in creating the project here in hackathon...do check:
 
 https://youtu.be/qBgRn3gq0WY?si=gwJBg0GPhDeXEexp
+
+The code is built using Python, openAI , and in-built directories of python as given above.
